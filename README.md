@@ -10,6 +10,8 @@ find better names and/or locations for various methods.
 
 ## Installation
 
+Requires PHP 8.2.
+
 `composer require rikudou/lemmy-api`
 
 You also need to install a compatible [PSR http client](https://packagist.org/providers/psr/http-client-implementation)
