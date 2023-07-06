@@ -9,7 +9,7 @@
         "psr/http-client-implementation": "*",
         "php": "^8.2",
         "ext-json": "*",
-        "psr/http-message": "^2.0",
+        "psr/http-message": "^1.0 | ^2.0",
         "ext-fileinfo": "*"
     },
     "require-dev": {
