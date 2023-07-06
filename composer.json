@@ -1,0 +1,36 @@
+{
+    "name": "rikudou/lemmy-api",
+    "description": "Communicate with Lemmy API from php",
+    "license": "MIT",
+    "require": {
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-factory-implementation": "*",
+        "psr/http-client-implementation": "*",
+        "php": "^8.2",
+        "ext-json": "*",
+        "psr/http-message": "^2.0",
+        "ext-fileinfo": "*"
+    },
+    "require-dev": {
+        "symfony/http-client": "^6.3",
+        "php-http/discovery": "^1.19",
+        "nyholm/psr7": "^1.8",
+        "friendsofphp/php-cs-fixer": "^3.21",
+        "phpstan/phpstan": "^1.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Rikudou\\LemmyApi\\": "src/"
+        }
+    },
+    "scripts": {
+        "fixer": "php-cs-fixer fix --verbose --allow-risky=yes",
+        "phpstan": "phpstan analyse --level=max src"
+    }
+}
