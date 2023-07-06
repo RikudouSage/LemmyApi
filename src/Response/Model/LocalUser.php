@@ -2,7 +2,6 @@
 
 namespace Rikudou\LemmyApi\Response\Model;
 
-use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
@@ -15,7 +14,7 @@ final readonly class LocalUser extends AbstractResponseDto
         public SortType $defaultSortType,
         public bool $emailVerified,
         public int $id,
-        public Language $interfaceLanguage,
+        public string $interfaceLanguage,
         public int $personId,
         public bool $sendNotificationsToEmail,
         public bool $showAvatars,
@@ -26,8 +25,9 @@ final readonly class LocalUser extends AbstractResponseDto
         public bool $showScores,
         public string $theme,
         public string $validatorTime,
-        public ?string $totp2faUrl,
+        public ?string $totp2faUrl = null,
         public ?string $email = null,
+        public ?bool $openLinksInNewTab = null,
     ) {
     }
 }
