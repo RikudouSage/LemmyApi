@@ -83,6 +83,9 @@ Currently even api calls that don't need a logged in user require login in this 
 doesn't allow anonymous access at all.
 This will be looked into in the future.
 
+There are no tests currently, I plan them in the future but now I don't want to see anything Lemmy api related for
+a while.
+
 ## Example
 
 A very primitive remind me bot:
