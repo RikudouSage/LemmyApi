@@ -31,6 +31,13 @@ trait HttpModuleTrait
         ;
         if ($body !== null) {
             if ($method !== HttpMethod::Get) {
+                $body = array_map(static function (mixed $item) {
+                    if (is_bool($item)) {
+                        return $item ? 'true' : 'false';
+                    }
+
+                    return $item;
+                }, $body);
                 $request = $request->withBody(new StringStream(json_encode($body, flags: JSON_THROW_ON_ERROR)));
             } else {
                 $query = http_build_query($body);
