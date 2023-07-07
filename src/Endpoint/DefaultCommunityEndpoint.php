@@ -120,6 +120,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         ?int $page = null,
         ?SortType $sort = null,
         ?ListingType $listingType = null,
+        ?bool $showNsfw = null,
     ): array {
         return $this->defaultCall(
             '/community/list',
@@ -129,6 +130,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
                 'page' => $page,
                 'sort' => $sort?->value,
                 'type_' => $listingType?->value,
+                'show_nsfw' => $showNsfw,
             ],
             ListCommunitiesResponse::class,
             static fn (ListCommunitiesResponse $response) => $response->communities,

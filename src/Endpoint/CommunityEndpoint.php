@@ -52,5 +52,6 @@ interface CommunityEndpoint
         ?int $page = null,
         ?SortType $sort = null,
         ?ListingType $listingType = null,
+        ?bool $showNsfw = null,
     ): array;
 }
