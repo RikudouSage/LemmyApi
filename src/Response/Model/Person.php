@@ -24,6 +24,7 @@ final readonly class Person extends AbstractResponseDto
         public ?string $bio = null,
         public ?string $displayName = null,
         public ?string $matrixUserId = null,
+        public ?DateTimeInterface $updated = null,
     ) {
     }
 }
