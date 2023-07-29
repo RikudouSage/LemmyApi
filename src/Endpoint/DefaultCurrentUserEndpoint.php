@@ -593,6 +593,8 @@ final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint impleme
         ?bool $showReadPosts = null,
         ?bool $showScores = null,
         ?string $theme = null,
+        ?bool $openLinksInNewTab = null,
+        ?bool $infiniteScrollEnabled = null,
     ): bool {
         $args = get_defined_vars();
         $bodyKeys = array_map(

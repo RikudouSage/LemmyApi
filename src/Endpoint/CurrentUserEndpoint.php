@@ -142,5 +142,7 @@ interface CurrentUserEndpoint
         ?bool $showReadPosts = null,
         ?bool $showScores = null,
         ?string $theme = null,
+        ?bool $openLinksInNewTab = null,
+        ?bool $infiniteScrollEnabled = null,
     ): bool;
 }
