@@ -5,6 +5,7 @@ namespace Rikudou\LemmyApi\Enum;
 use Rikudou\LemmyApi\Exception\CommunityBanException;
 use Rikudou\LemmyApi\Exception\IncorrectPasswordException;
 use Rikudou\LemmyApi\Exception\InsufficientPermissionsException;
+use Rikudou\LemmyApi\Exception\LanguageNotAllowedException;
 use Rikudou\LemmyApi\Exception\LemmyApiException;
 use Rikudou\LemmyApi\Exception\UserNotFoundException;
 
@@ -17,6 +18,7 @@ enum ErrorCode: string
     case InvalidPassword = 'invalid_password';
     case CommunityBan = 'community_ban';
     case IncorrectLogin = 'incorrect_login';
+    case LanguageNotAllowed = 'language_not_allowed';
 
     public function toException(): LemmyApiException
     {
@@ -27,6 +29,7 @@ enum ErrorCode: string
             self::NotModOrAdmin => new InsufficientPermissionsException('You must be an admin or moderator to perform this action.'),
             self::InvalidPassword => new IncorrectPasswordException('The provided password is not valid'),
             self::CommunityBan => new CommunityBanException('The user has been banned from the community'),
+            self::LanguageNotAllowed => new LanguageNotAllowedException('The language is not allowed'),
         };
     }
 }
