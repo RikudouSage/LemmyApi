@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -46,6 +47,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         );
     }
 
+    #[RequiresAuth]
     public function create(
         string $name,
         string $displayName,
@@ -76,6 +78,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         );
     }
 
+    #[RequiresAuth]
     public function delete(Community|int $community): bool
     {
         return $this->defaultCall(
@@ -90,6 +93,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         );
     }
 
+    #[RequiresAuth]
     public function undelete(Community|int $community): bool
     {
         return $this->defaultCall(
@@ -104,6 +108,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         );
     }
 
+    #[RequiresAuth]
     public function update(
         Community|int $community,
         ?string $banner = null,
@@ -134,6 +139,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         );
     }
 
+    #[RequiresAuth]
     public function list(
         ?int $limit = null,
         ?int $page = null,

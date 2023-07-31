@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\NoAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Helper\HttpModuleTrait;
@@ -11,6 +12,7 @@ use Rikudou\LemmyApi\Response\Model\CaptchaResponse;
 use Rikudou\LemmyApi\Response\Model\Community;
 use Rikudou\LemmyApi\Response\Model\Person;
 
+#[NoAuth]
 final readonly class DefaultUserEndpoint extends AbstractEndpoint implements UserEndpoint
 {
     use HttpModuleTrait;

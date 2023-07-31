@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\NoAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\ModlogActionType;
@@ -16,6 +17,7 @@ use Rikudou\LemmyApi\Response\Model\Person;
 use Rikudou\LemmyApi\Response\Model\SiteMetadata;
 use Rikudou\LemmyApi\Response\SiteResponse;
 
+#[NoAuth]
 final readonly class DefaultSiteEndpoint extends AbstractEndpoint implements SiteEndpoint
 {
     public function update(

@@ -27,7 +27,6 @@ use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\LemmyApiVersion;
 use Rikudou\LemmyApi\Exception\IncorrectPasswordException;
 use Rikudou\LemmyApi\Exception\LemmyApiException;
-use Rikudou\LemmyApi\Exception\LoginRequiredException;
 use Rikudou\LemmyApi\Helper\HttpModuleTrait;
 use Rikudou\LemmyApi\Response\LoginResponse;
 use SensitiveParameter;
@@ -113,9 +112,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function user(): UserEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultUserEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -127,9 +123,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function currentUser(): CurrentUserEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultCurrentUserEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -141,9 +134,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function admin(): AdminEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultAdminEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -155,9 +145,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function moderator(): ModeratorEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultModeratorEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -169,9 +156,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function post(): PostEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultPostEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -183,9 +167,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function community(): CommunityEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultCommunityEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -197,9 +178,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function comment(): CommentEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultCommentEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -211,9 +189,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function site(): SiteEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultSiteEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -225,9 +200,6 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function miscellaneous(): MiscellaneousEndpoint
     {
-        $this->checkJwt();
-        assert($this->jwt !== null);
-
         return new DefaultMiscellaneousEndpoint(
             jwt: $this->jwt,
             instanceUrl: $this->instanceUrl,
@@ -240,13 +212,6 @@ final class DefaultLemmyApi implements LemmyApi
     private function getVersion(): LemmyApiVersion
     {
         return $this->version;
-    }
-
-    private function checkJwt(): void
-    {
-        if ($this->jwt === null) {
-            throw new LoginRequiredException('Login is required for this endpoint, use the login() method before calling this one');
-        }
     }
 
     private function getRequestFactory(): RequestFactoryInterface

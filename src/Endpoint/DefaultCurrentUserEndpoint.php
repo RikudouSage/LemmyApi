@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Enum\CommentSortType;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -32,6 +33,7 @@ use Rikudou\LemmyApi\Response\View\PrivateMessageReportView;
 use Rikudou\LemmyApi\Response\View\PrivateMessageView;
 use SensitiveParameter;
 
+#[RequiresAuth]
 final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint implements CurrentUserEndpoint
 {
     public function getMentions(

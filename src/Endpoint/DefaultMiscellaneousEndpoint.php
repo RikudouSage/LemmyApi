@@ -4,6 +4,7 @@ namespace Rikudou\LemmyApi\Endpoint;
 
 use finfo;
 use Psr\Http\Message\StreamInterface;
+use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Dto\UploadImageResult;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -68,6 +69,7 @@ final readonly class DefaultMiscellaneousEndpoint extends AbstractEndpoint imple
         );
     }
 
+    #[RequiresAuth]
     public function uploadImage(StreamInterface|SplFileInfo $image, ?string $filename = null): UploadImageResult
     {
         if ($image instanceof SplFileInfo) {

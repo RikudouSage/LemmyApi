@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Enum\CommentSortType;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\Language;
@@ -17,6 +18,7 @@ use Rikudou\LemmyApi\Response\View\CommentView;
 
 final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements CommentEndpoint
 {
+    #[RequiresAuth]
     public function create(
         Post|int $post,
         string $content,
@@ -43,6 +45,7 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
         );
     }
 
+    #[RequiresAuth]
     public function report(int|Comment $comment, string $reason): CommentReportView
     {
         return $this->defaultCall(
@@ -57,6 +60,7 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
         );
     }
 
+    #[RequiresAuth]
     public function delete(int|Comment $comment): bool
     {
         return $this->defaultCall(
@@ -71,6 +75,7 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
         );
     }
 
+    #[RequiresAuth]
     public function undelete(int|Comment $comment): bool
     {
         return $this->defaultCall(
@@ -85,6 +90,7 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
         );
     }
 
+    #[RequiresAuth]
     public function update(
         int|Comment $comment,
         ?string $content = null,

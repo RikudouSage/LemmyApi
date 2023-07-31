@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -19,6 +20,7 @@ use Rikudou\LemmyApi\Response\View\PostView;
 
 final readonly class DefaultPostEndpoint extends AbstractEndpoint implements PostEndpoint
 {
+    #[RequiresAuth]
     public function create(
         Community|int $community,
         string $name,
@@ -45,6 +47,7 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         );
     }
 
+    #[RequiresAuth]
     public function report(Post|int $post, string $reason): PostReportView
     {
         return $this->defaultCall(
@@ -59,6 +62,7 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         );
     }
 
+    #[RequiresAuth]
     public function delete(Post|int $post): bool
     {
         return $this->defaultCall(
@@ -73,6 +77,7 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         );
     }
 
+    #[RequiresAuth]
     public function undelete(Post|int $post): bool
     {
         return $this->defaultCall(
@@ -87,6 +92,7 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         );
     }
 
+    #[RequiresAuth]
     public function update(
         Post|int $post,
         ?string $name = null,
@@ -111,6 +117,7 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         );
     }
 
+    #[RequiresAuth]
     public function pin(Post|int $post, PostFeatureType $featureType): bool
     {
         return $this->defaultCall(
@@ -128,6 +135,7 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         );
     }
 
+    #[RequiresAuth]
     public function unpin(Post|int $post, PostFeatureType $featureType): bool
     {
         return $this->defaultCall(

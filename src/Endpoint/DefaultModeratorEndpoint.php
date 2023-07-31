@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Endpoint;
 
 use DateTimeInterface;
+use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Response\AddModToCommunityResponse;
 use Rikudou\LemmyApi\Response\BanFromCommunityResponse;
@@ -21,6 +22,7 @@ use Rikudou\LemmyApi\Response\Model\PostReport;
 use Rikudou\LemmyApi\Response\PostReportResponse;
 use Rikudou\LemmyApi\Response\PostResponse;
 
+#[RequiresAuth]
 final readonly class DefaultModeratorEndpoint extends AbstractEndpoint implements ModeratorEndpoint
 {
     public function addModeratorToCommunity(int|Person $user, Community|int $community): bool

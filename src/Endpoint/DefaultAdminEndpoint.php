@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Endpoint;
 
 use DateTimeInterface;
+use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Response\AddAdminResponse;
 use Rikudou\LemmyApi\Response\BannedPersonsResponse;
@@ -25,6 +26,7 @@ use Rikudou\LemmyApi\Response\PurgeItemResponse;
 use Rikudou\LemmyApi\Response\RegistrationApplicationResponse;
 use Rikudou\LemmyApi\Response\View\PersonView;
 
+#[RequiresAuth]
 final readonly class DefaultAdminEndpoint extends AbstractEndpoint implements AdminEndpoint
 {
     public function banUser(
