@@ -44,6 +44,10 @@ abstract readonly class AbstractResponseDto implements ResponseDto
                 continue;
             }
 
+            if ($type->allowsNull() && $value === null) {
+                continue;
+            }
+
             $typeName = $type->getName();
             if ($type->getName() === 'array' && $arrayType = self::getArrayType($parameters[$key])) {
                 assert(is_array($value));

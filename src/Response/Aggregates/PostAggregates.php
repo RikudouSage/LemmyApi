@@ -21,6 +21,7 @@ final readonly class PostAggregates extends AbstractResponseDto
         public DateTimeInterface $published,
         public int $score,
         public int $upvotes,
+        public ?int $communityId = null,
     ) {
     }
 }
