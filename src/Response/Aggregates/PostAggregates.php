@@ -22,6 +22,7 @@ final readonly class PostAggregates extends AbstractResponseDto
         public int $score,
         public int $upvotes,
         public ?int $communityId = null,
+        public ?int $creatorId = null,
     ) {
     }
 }
