@@ -28,6 +28,7 @@ final readonly class LocalUser extends AbstractResponseDto
         public ?string $totp2faUrl = null,
         public ?string $email = null,
         public ?bool $openLinksInNewTab = null,
+        public ?bool $infiniteScrollEnabled = null,
     ) {
     }
 }
