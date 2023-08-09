@@ -73,7 +73,12 @@ final class DefaultLemmyApi implements LemmyApi
         return $response;
     }
 
-    public function setJwt(string $jwt): void
+    public function getJwt(): ?string
+    {
+        return $this->jwt;
+    }
+
+    public function setJwt(?string $jwt): void
     {
         $this->jwt = $jwt;
     }
