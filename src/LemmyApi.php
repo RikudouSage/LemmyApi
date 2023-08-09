@@ -33,6 +33,8 @@ interface LemmyApi
         ?string $honeypot = null,
     ): LoginResponse;
 
+    public function setJwt(string $jwt): void;
+
     public function user(): UserEndpoint;
 
     public function currentUser(): CurrentUserEndpoint;

@@ -68,9 +68,14 @@ final class DefaultLemmyApi implements LemmyApi
         }
 
         $response = LoginResponse::fromRaw($this->getJson($response));
-        $this->jwt = $response->jwt;
+        $this->setJwt($response->jwt);
 
         return $response;
+    }
+
+    public function setJwt(string $jwt): void
+    {
+        $this->jwt = $jwt;
     }
 
     public function register(
@@ -105,7 +110,7 @@ final class DefaultLemmyApi implements LemmyApi
         }
 
         $response = LoginResponse::fromRaw($this->getJson($response));
-        $this->jwt = $response->jwt;
+        $this->setJwt($response->jwt);
 
         return $response;
     }
