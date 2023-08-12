@@ -4,9 +4,11 @@ namespace Rikudou\LemmyApi\Enum;
 
 use Rikudou\LemmyApi\Exception\CommunityBanException;
 use Rikudou\LemmyApi\Exception\IncorrectPasswordException;
+use Rikudou\LemmyApi\Exception\IncorrectTotpToken;
 use Rikudou\LemmyApi\Exception\InsufficientPermissionsException;
 use Rikudou\LemmyApi\Exception\LanguageNotAllowedException;
 use Rikudou\LemmyApi\Exception\LemmyApiException;
+use Rikudou\LemmyApi\Exception\MissingTotpToken;
 use Rikudou\LemmyApi\Exception\UserNotFoundException;
 
 enum ErrorCode: string
@@ -19,6 +21,8 @@ enum ErrorCode: string
     case CommunityBan = 'community_ban';
     case IncorrectLogin = 'incorrect_login';
     case LanguageNotAllowed = 'language_not_allowed';
+    case MissingTotpToken = 'missing_totp_token';
+    case IncorrectTotpToken = 'incorrect_totp token';
 
     public function toException(): LemmyApiException
     {
@@ -30,6 +34,8 @@ enum ErrorCode: string
             self::InvalidPassword => new IncorrectPasswordException('The provided password is not valid'),
             self::CommunityBan => new CommunityBanException('The user has been banned from the community'),
             self::LanguageNotAllowed => new LanguageNotAllowedException('The language is not allowed'),
+            self::MissingTotpToken => new MissingTotpToken('The TOTP is enabled for this account and you did not send it'),
+            self::IncorrectTotpToken => new IncorrectTotpToken('The provided TOTP token is incorrect'),
         };
     }
 }
