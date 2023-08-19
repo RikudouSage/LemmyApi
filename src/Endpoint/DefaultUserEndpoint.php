@@ -33,8 +33,12 @@ final readonly class DefaultUserEndpoint extends AbstractEndpoint implements Use
         );
     }
 
-    public function getModeratedCommunities(int|string $usernameOrId): array
+    public function getModeratedCommunities(int|string|Person $usernameOrId): array
     {
+        if ($usernameOrId instanceof Person) {
+            $usernameOrId = $usernameOrId->id;
+        }
+
         return $this->defaultCall(
             '/user',
             HttpMethod::Get,

@@ -16,7 +16,7 @@ interface UserEndpoint
     /**
      * @return array<Community>
      */
-    public function getModeratedCommunities(string|int $usernameOrId): array;
+    public function getModeratedCommunities(string|int|Person $usernameOrId): array;
 
     /**
      * @return array<CommentView>
