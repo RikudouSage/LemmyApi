@@ -11,6 +11,7 @@ use Rikudou\LemmyApi\Response\GetPersonDetailsResponse;
 use Rikudou\LemmyApi\Response\Model\CaptchaResponse;
 use Rikudou\LemmyApi\Response\Model\Community;
 use Rikudou\LemmyApi\Response\Model\Person;
+use Rikudou\LemmyApi\Response\View\CommunityModeratorView;
 
 #[NoAuth]
 final readonly class DefaultUserEndpoint extends AbstractEndpoint implements UserEndpoint
@@ -29,6 +30,23 @@ final readonly class DefaultUserEndpoint extends AbstractEndpoint implements Use
             ],
             GetPersonDetailsResponse::class,
             static fn (GetPersonDetailsResponse $response) => $response->personView->person,
+        );
+    }
+
+    public function getModeratedCommunities(int|string $usernameOrId): array
+    {
+        return $this->defaultCall(
+            '/user',
+            HttpMethod::Get,
+            [
+                'person_id' => is_int($usernameOrId) ? $usernameOrId : null,
+                'username' => is_string($usernameOrId) ? $usernameOrId : null,
+            ],
+            GetPersonDetailsResponse::class,
+            static fn (GetPersonDetailsResponse $response) => array_map(
+                static fn (CommunityModeratorView $view) => $view->community,
+                $response->moderates,
+            ),
         );
     }
 
