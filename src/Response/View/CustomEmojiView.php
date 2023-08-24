@@ -10,12 +10,12 @@ use Rikudou\LemmyApi\Response\Model\CustomEmojiKeyword;
 final readonly class CustomEmojiView extends AbstractResponseDto
 {
     /**
-     * @param array<CustomEmojiKeyword> $customEmojiKeywords
+     * @param array<CustomEmojiKeyword> $keywords
      */
     public function __construct(
         public CustomEmoji $customEmoji,
         #[ArrayType(CustomEmojiKeyword::class)]
-        public array $customEmojiKeywords,
+        public array $keywords,
     ) {
     }
 }
