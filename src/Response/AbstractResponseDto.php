@@ -19,7 +19,7 @@ abstract readonly class AbstractResponseDto implements ResponseDto
     {
         $transformedKeys = array_map(
             static fn (string $key): string => (string) preg_replace_callback(
-                '@_([a-z])@',
+                '@_([a-z0-9])@',
                 static fn (array $matches) => strtoupper($matches[1]),
                 $key,
             ),
