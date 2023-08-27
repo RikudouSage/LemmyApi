@@ -13,6 +13,11 @@ interface CommunityEndpoint
 {
     public function get(int|string $nameOrId): Community;
 
+    /**
+     * @return array<Language>
+     */
+    public function getLanguages(int|string|Community $community): array;
+
     public function getCommunityInstance(int|string|Community $community): ?Site;
 
     /**

@@ -29,6 +29,24 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         );
     }
 
+    public function getLanguages(Community|int|string $community): array
+    {
+        if ($community instanceof Community) {
+            $community = $community->id;
+        }
+
+        return $this->defaultCall(
+            '/community',
+            HttpMethod::Get,
+            [
+                'id' => is_int($community) ? $community : null,
+                'name' => is_string($community) ? $community : null,
+            ],
+            GetCommunityResponse::class,
+            static fn (GetCommunityResponse $response) => $response->discussionLanguages,
+        );
+    }
+
     public function getCommunityInstance(Community|int|string $community): ?Site
     {
         if ($community instanceof Community) {
