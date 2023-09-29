@@ -2,6 +2,8 @@
 
 namespace Rikudou\LemmyApi\Enum;
 
+use Rikudou\LemmyApi\Attribute\Since;
+
 enum SortType: string
 {
     case Active = 'Active';
@@ -18,4 +20,10 @@ enum SortType: string
     case TopHour = 'TopHour';
     case TopSixHour = 'TopSixHour';
     case TopTwelveHour = 'TopTwelveHour';
+
+    #[Since('0.19.0')]
+    case Controversial = 'Controversial';
+
+    #[Since('0.19.0')]
+    case Scaled = 'Scaled';
 }

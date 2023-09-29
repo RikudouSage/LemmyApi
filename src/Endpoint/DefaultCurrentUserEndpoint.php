@@ -2,17 +2,21 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use JetBrains\PhpStorm\Deprecated;
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\CommentSortType;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Enum\SubscribedType;
 use Rikudou\LemmyApi\Response\BlockCommunityResponse;
+use Rikudou\LemmyApi\Response\BlockInstanceResponse;
 use Rikudou\LemmyApi\Response\BlockPersonResponse;
 use Rikudou\LemmyApi\Response\CommentReplyResponse;
 use Rikudou\LemmyApi\Response\CommentResponse;
 use Rikudou\LemmyApi\Response\CommunityResponse;
+use Rikudou\LemmyApi\Response\GenerateTotpSecretResponse;
 use Rikudou\LemmyApi\Response\GetPersonMentionsResponse;
 use Rikudou\LemmyApi\Response\GetRepliesResponse;
 use Rikudou\LemmyApi\Response\GetUnreadCountResponse;
@@ -20,6 +24,7 @@ use Rikudou\LemmyApi\Response\LoginResponse;
 use Rikudou\LemmyApi\Response\Model\Comment;
 use Rikudou\LemmyApi\Response\Model\CommentReply;
 use Rikudou\LemmyApi\Response\Model\Community;
+use Rikudou\LemmyApi\Response\Model\Instance;
 use Rikudou\LemmyApi\Response\Model\Person;
 use Rikudou\LemmyApi\Response\Model\PersonMention;
 use Rikudou\LemmyApi\Response\Model\Post;
@@ -29,6 +34,7 @@ use Rikudou\LemmyApi\Response\PostResponse;
 use Rikudou\LemmyApi\Response\PrivateMessageReportResponse;
 use Rikudou\LemmyApi\Response\PrivateMessageResponse;
 use Rikudou\LemmyApi\Response\PrivateMessagesResponse;
+use Rikudou\LemmyApi\Response\UpdateTotpResponse;
 use Rikudou\LemmyApi\Response\View\PrivateMessageReportView;
 use Rikudou\LemmyApi\Response\View\PrivateMessageView;
 use SensitiveParameter;
@@ -266,8 +272,17 @@ final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint impleme
         );
     }
 
-    public function getPrivateMessages(?int $limit = null, ?int $page = null, ?bool $unreadOnly = null): array
-    {
+    public function getPrivateMessages(
+        ?int $limit = null,
+        ?int $page = null,
+        ?bool $unreadOnly = null,
+        #[Since('0.19.0')]
+        Person|int|null $creator = null,
+    ): array {
+        if ($creator instanceof Person) {
+            $creator = $creator->id;
+        }
+
         return $this->defaultCall(
             '/private_message/list',
             HttpMethod::Get,
@@ -275,6 +290,7 @@ final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint impleme
                 'limit' => $limit,
                 'page' => $page,
                 'unread_only' => $unreadOnly,
+                'creator_id' => $creator,
             ],
             PrivateMessagesResponse::class,
             static fn (PrivateMessagesResponse $response) => $response->privateMessages,
@@ -584,6 +600,7 @@ final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint impleme
         ?array $discussionLanguages = null,
         ?string $displayName = null,
         ?string $email = null,
+        #[Deprecated(since: '0.19.0')]
         ?string $generateTotp2Fa = null,
         ?string $interfaceLanguage = null,
         ?string $matrixUserId = null,
@@ -596,7 +613,12 @@ final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint impleme
         ?bool $showScores = null,
         ?string $theme = null,
         ?bool $openLinksInNewTab = null,
+        #[Since('0.19.0')]
         ?bool $infiniteScrollEnabled = null,
+        #[Since('0.19.0')]
+        ?bool $blurNsfw = null,
+        #[Since('0.19.0')]
+        ?bool $autoExpand = null,
     ): bool {
         $args = get_defined_vars();
         $bodyKeys = array_map(
@@ -615,6 +637,76 @@ final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint impleme
             $body,
             LoginResponse::class,
             static fn (LoginResponse $response) => true,
+        );
+    }
+
+    #[Since('0.19.0')]
+    public function blockInstance(Instance|int $instance): bool
+    {
+        return $this->defaultCall(
+            '/site/block',
+            HttpMethod::Post,
+            [
+                'instance_id' => is_int($instance) ? $instance : $instance->id,
+                'block' => true,
+            ],
+            BlockInstanceResponse::class,
+            static fn (BlockInstanceResponse $response) => $response->blocked,
+        );
+    }
+
+    #[Since('0.19.0')]
+    public function unblockInstance(Instance|int $instance): bool
+    {
+        return $this->defaultCall(
+            '/site/block',
+            HttpMethod::Post,
+            [
+                'instance_id' => is_int($instance) ? $instance : $instance->id,
+                'block' => false,
+            ],
+            BlockInstanceResponse::class,
+            static fn (BlockInstanceResponse $response) => !$response->blocked,
+        );
+    }
+
+    public function deleteAccount(#[SensitiveParameter] string $password, #[Since('0.19.0')] ?bool $deleteContent = null): void
+    {
+        $this->defaultCall(
+            '/user/delete_account',
+            HttpMethod::Post,
+            [
+                'password' => $password,
+                'delete_content' => (bool) $deleteContent,
+            ],
+            null,
+        );
+    }
+
+    #[Since('0.19.0')]
+    public function generateTotpSecret(): string
+    {
+        return $this->defaultCall(
+            '/user/totp/generate',
+            HttpMethod::Post,
+            [],
+            GenerateTotpSecretResponse::class,
+            static fn (GenerateTotpSecretResponse $response) => $response->totpSecretUrl,
+        );
+    }
+
+    #[Since('0.19.0')]
+    public function updateTotp(string $token, bool $enabled): bool
+    {
+        return $this->defaultCall(
+            '/user/totp/update',
+            HttpMethod::Post,
+            [
+                'totp_token' => $token,
+                'enabled' => $enabled,
+            ],
+            UpdateTotpResponse::class,
+            static fn (UpdateTotpResponse $response) => $response->enabled === $enabled,
         );
     }
 }

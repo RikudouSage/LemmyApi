@@ -2,6 +2,8 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use JetBrains\PhpStorm\Deprecated;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\CommentSortType;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -11,6 +13,7 @@ use Rikudou\LemmyApi\Response\LoginResponse;
 use Rikudou\LemmyApi\Response\Model\Comment;
 use Rikudou\LemmyApi\Response\Model\CommentReply;
 use Rikudou\LemmyApi\Response\Model\Community;
+use Rikudou\LemmyApi\Response\Model\Instance;
 use Rikudou\LemmyApi\Response\Model\Person;
 use Rikudou\LemmyApi\Response\Model\PersonMention;
 use Rikudou\LemmyApi\Response\Model\Post;
@@ -50,7 +53,13 @@ interface CurrentUserEndpoint
     /**
      * @return array<PrivateMessageView>
      */
-    public function getPrivateMessages(?int $limit = null, ?int $page = null, ?bool $unreadOnly = null): array;
+    public function getPrivateMessages(
+        ?int $limit = null,
+        ?int $page = null,
+        ?bool $unreadOnly = null,
+        #[Since('0.19.0')]
+        Person|int|null $creator = null,
+    ): array;
 
     public function deletePrivateMessage(PrivateMessage|int $message): bool;
 
@@ -131,6 +140,7 @@ interface CurrentUserEndpoint
         ?array $discussionLanguages = null,
         ?string $displayName = null,
         ?string $email = null,
+        #[Deprecated(since: '0.19.0')]
         ?string $generateTotp2Fa = null,
         ?string $interfaceLanguage = null,
         ?string $matrixUserId = null,
@@ -143,6 +153,25 @@ interface CurrentUserEndpoint
         ?bool $showScores = null,
         ?string $theme = null,
         ?bool $openLinksInNewTab = null,
+        #[Since('0.19.0')]
         ?bool $infiniteScrollEnabled = null,
+        #[Since('0.19.0')]
+        ?bool $blurNsfw = null,
+        #[Since('0.19.0')]
+        ?bool $autoExpand = null,
     ): bool;
+
+    #[Since('0.19.0')]
+    public function blockInstance(Instance|int $instance): bool;
+
+    #[Since('0.19.0')]
+    public function unblockInstance(Instance|int $instance): bool;
+
+    public function deleteAccount(#[SensitiveParameter] string $password, #[Since('0.19.0')] ?bool $deleteContent = null): void;
+
+    #[Since('0.19.0')]
+    public function generateTotpSecret(): string;
+
+    #[Since('0.19.0')]
+    public function updateTotp(string $token, bool $enabled): bool;
 }

@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Response\Aggregates;
 
 use DateTimeInterface;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 
 final readonly class PostAggregates extends AbstractResponseDto
@@ -21,8 +22,16 @@ final readonly class PostAggregates extends AbstractResponseDto
         public DateTimeInterface $published,
         public int $score,
         public int $upvotes,
+        #[Since('0.19.0')]
         public ?int $communityId = null,
+        #[Since('0.19.0')]
         public ?int $creatorId = null,
+        #[Since('0.19.0')]
+        public ?float $controversyRank = null,
+        #[Since('0.19.0')]
+        public ?int $instanceId = null,
+        #[Since('0.19.0')]
+        public ?float $scaledRank = null,
     ) {
     }
 }

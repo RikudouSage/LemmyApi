@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\PostFeatureType;
@@ -23,6 +24,8 @@ interface PostEndpoint
 
     /**
      * @return array<PostView>
+     *
+     * @todo add support for cursor
      */
     public function getPosts(
         Community|int|string|null $community = null,
@@ -31,6 +34,10 @@ interface PostEndpoint
         ?bool $savedOnly = null,
         ?SortType $sort = null,
         ?ListingType $listingType = null,
+        #[Since('0.19.0')]
+        ?bool $likedOnly = null,
+        #[Since('0.19.0')]
+        ?bool $dislikedOnly = null,
     ): array;
 
     public function create(

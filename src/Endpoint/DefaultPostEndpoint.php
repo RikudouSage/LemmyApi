@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Endpoint;
 
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -191,6 +192,10 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         ?bool $savedOnly = null,
         ?SortType $sort = null,
         ?ListingType $listingType = null,
+        #[Since('0.19.0')]
+        ?bool $likedOnly = null,
+        #[Since('0.19.0')]
+        ?bool $dislikedOnly = null,
     ): array {
         if ($community instanceof Community) {
             $community = $community->id;
@@ -207,6 +212,8 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
                 'saved_only' => $savedOnly,
                 'sort' => $sort?->value,
                 'type_' => $listingType?->value,
+                'liked_only' => $likedOnly,
+                'disliked_only' => $dislikedOnly,
             ],
             GetPostsResponse::class,
             static fn (GetPostsResponse $response) => $response->posts,
