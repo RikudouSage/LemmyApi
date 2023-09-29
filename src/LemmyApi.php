@@ -18,13 +18,16 @@ interface LemmyApi
 {
     public function login(
         string $username,
-        #[SensitiveParameter] string $password,
-        #[SensitiveParameter] ?string $totpToken = null,
+        #[SensitiveParameter]
+        string $password,
+        #[SensitiveParameter]
+        ?string $totpToken = null,
     ): LoginResponse;
 
     public function register(
         string $username,
-        #[SensitiveParameter] string $password,
+        #[SensitiveParameter]
+        string $password,
         bool $showNsfw,
         ?string $email = null,
         ?string $answer = null,

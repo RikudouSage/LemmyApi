@@ -108,6 +108,7 @@ final readonly class DefaultMiscellaneousEndpoint extends AbstractEndpoint imple
         )
             ->withHeader('Content-Type', "multipart/form-data; boundary={$boundary}")
             ->withHeader('Cookie', "jwt={$this->jwt}")
+            ->withHeader('Cookie', "auth={$this->jwt}")
             ->withBody(new StringStream($requestBody));
 
         $response = $this->httpClient->sendRequest($request);

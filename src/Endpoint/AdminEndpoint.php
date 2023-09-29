@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Endpoint;
 
 use DateTimeInterface;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Response\GetUnreadRegistrationApplicationCountResponse;
 use Rikudou\LemmyApi\Response\Model\Comment;
 use Rikudou\LemmyApi\Response\Model\Community;
@@ -95,4 +96,10 @@ interface AdminEndpoint
         ?int $page = null,
         ?bool $unresolvedOnly = null,
     ): array;
+
+    #[Since('0.19.0')]
+    public function hideCommunity(Community|int $community, ?string $reason = null): bool;
+
+    #[Since('0.19.0')]
+    public function unhideCommunity(Community|int $community): bool;
 }

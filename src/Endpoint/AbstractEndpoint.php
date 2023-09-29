@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Endpoint;
 
 use Closure;
+use JetBrains\PhpStorm\ExpectedValues;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
@@ -11,6 +12,7 @@ use ReflectionException;
 use ReflectionMethod;
 use Rikudou\LemmyApi\Attribute\NoAuth;
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
+use Rikudou\LemmyApi\Enum\AuthMode;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\LemmyApiVersion;
 use Rikudou\LemmyApi\Exception\LoginRequiredException;
@@ -27,19 +29,29 @@ abstract readonly class AbstractEndpoint
         protected LemmyApiVersion $version,
         protected ClientInterface $httpClient,
         protected RequestFactoryInterface $requestFactory,
+        #[ExpectedValues(valuesFromClass: AuthMode::class)]
+        protected int $authMode = AuthMode::Both,
     ) {
     }
 
     /**
-     * @param array<string, mixed>|null $body
+     * @param array<string, mixed>|null  $body
+     * @param array<string, string>|null $headers
      */
-    protected function createAuthenticatedRequest(string $path, HttpMethod $method, ?array $body = null): RequestInterface
+    protected function createAuthenticatedRequest(string $path, HttpMethod $method, ?array $body = null, ?array $headers = null): RequestInterface
     {
         $body ??= [];
-        $body['auth'] ??= $this->jwt;
+        $headers ??= [];
+
+        if ($this->authMode & AuthMode::Body) {
+            $body['auth'] ??= $this->jwt;
+        }
+        if ($this->authMode & AuthMode::Header && $this->jwt) {
+            $headers['Authorization'] = "Bearer {$this->jwt}";
+        }
         $body = array_filter($body, static fn (mixed $item) => $item !== null);
 
-        return $this->createRequest($path, $method, $body);
+        return $this->createRequest($path, $method, $body, $headers);
     }
 
     protected function getVersion(): LemmyApiVersion

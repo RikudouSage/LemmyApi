@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi;
 
+use JetBrains\PhpStorm\ExpectedValues;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -23,6 +24,7 @@ use Rikudou\LemmyApi\Endpoint\ModeratorEndpoint;
 use Rikudou\LemmyApi\Endpoint\PostEndpoint;
 use Rikudou\LemmyApi\Endpoint\SiteEndpoint;
 use Rikudou\LemmyApi\Endpoint\UserEndpoint;
+use Rikudou\LemmyApi\Enum\AuthMode;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\LemmyApiVersion;
 use Rikudou\LemmyApi\Exception\IncorrectPasswordException;
@@ -37,12 +39,20 @@ final class DefaultLemmyApi implements LemmyApi
 
     private ?string $jwt = null;
 
+    private readonly string $instanceUrl;
+
     public function __construct(
-        private readonly string $instanceUrl,
+        string $instanceUrl,
         private readonly LemmyApiVersion $version,
         private readonly ClientInterface $httpClient,
         private readonly RequestFactoryInterface $requestFactory,
+        #[ExpectedValues(valuesFromClass: AuthMode::class)]
+        private readonly int $authMode = AuthMode::Both,
     ) {
+        if (!str_starts_with($instanceUrl, 'https://')) {
+            $instanceUrl = "https://{$instanceUrl}";
+        }
+        $this->instanceUrl = $instanceUrl;
     }
 
     /**
@@ -52,8 +62,10 @@ final class DefaultLemmyApi implements LemmyApi
      */
     public function login(
         string $username,
-        #[SensitiveParameter] string $password,
-        #[SensitiveParameter] ?string $totpToken = null
+        #[SensitiveParameter]
+        string $password,
+        #[SensitiveParameter]
+        ?string $totpToken = null
     ): LoginResponse {
         $response = $this->httpClient->sendRequest(
             $this->createRequest('/user/login', HttpMethod::Post, [
@@ -85,7 +97,8 @@ final class DefaultLemmyApi implements LemmyApi
 
     public function register(
         string $username,
-        #[SensitiveParameter] string $password,
+        #[SensitiveParameter]
+        string $password,
         bool $showNsfw,
         ?string $email = null,
         ?string $answer = null,
@@ -128,6 +141,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -139,6 +153,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -150,6 +165,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -161,6 +177,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -172,6 +189,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -183,6 +201,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -194,6 +213,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -205,6 +225,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 
@@ -216,6 +237,7 @@ final class DefaultLemmyApi implements LemmyApi
             version: $this->version,
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
+            authMode: $this->authMode,
         );
     }
 

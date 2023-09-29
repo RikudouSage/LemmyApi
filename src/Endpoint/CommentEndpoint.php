@@ -2,6 +2,8 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use JetBrains\PhpStorm\Deprecated;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\CommentSortType;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -16,6 +18,7 @@ interface CommentEndpoint
     public function create(
         Post|int $post,
         string $content,
+        #[Deprecated(since: '0.19.0')]
         ?string $formId = null,
         ?Language $language = null,
         Comment|int|null $parent = null,
@@ -36,6 +39,10 @@ interface CommentEndpoint
         ?bool $savedOnly = null,
         ?CommentSortType $sortType = null,
         ?ListingType $listingType = null,
+        #[Since('0.19.0')]
+        ?bool $likedOnly = null,
+        #[Since('0.19.0')]
+        ?bool $dislikedOnly = null,
     ): array;
 
     public function delete(Comment|int $comment): bool;
@@ -47,6 +54,7 @@ interface CommentEndpoint
     public function update(
         Comment|int $comment,
         ?string $content = null,
+        #[Deprecated(since: '0.19.0')]
         ?string $formId = null,
         ?Language $language = null,
     ): CommentView;

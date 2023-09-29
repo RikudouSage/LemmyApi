@@ -21,14 +21,20 @@ trait HttpModuleTrait
     abstract private function getInstanceUrl(): string;
 
     /**
-     * @param array<string, mixed>|null $body
+     * @param array<string, mixed>|null  $body
+     * @param array<string, string>|null $headers
      */
-    protected function createRequest(string $path, HttpMethod $method, ?array $body = null): RequestInterface
+    protected function createRequest(string $path, HttpMethod $method, ?array $body = null, ?array $headers = null): RequestInterface
     {
+        $headers ??= [];
+        $headers['Content-Type'] = 'application/json';
+
         $request = $this->getRequestFactory()
             ->createRequest($method->value, "{$this->getInstanceUrl()}/api/{$this->getVersion()->value}{$path}")
-            ->withHeader('Content-Type', 'application/json')
         ;
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
         if ($body !== null) {
             if ($method !== HttpMethod::Get) {
                 $request = $request->withBody(new StringStream(json_encode($body, flags: JSON_THROW_ON_ERROR)));

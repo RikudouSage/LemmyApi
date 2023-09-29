@@ -2,7 +2,9 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use JetBrains\PhpStorm\Deprecated;
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\CommentSortType;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\Language;
@@ -22,6 +24,7 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
     public function create(
         Post|int $post,
         string $content,
+        #[Deprecated(since: '0.19.0')]
         ?string $formId = null,
         ?Language $language = null,
         Comment|int|null $parent = null,
@@ -94,6 +97,7 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
     public function update(
         int|Comment $comment,
         ?string $content = null,
+        #[Deprecated(since: '0.19.0')]
         ?string $formId = null,
         ?Language $language = null,
     ): CommentView {
@@ -134,6 +138,10 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
         ?bool $savedOnly = null,
         ?CommentSortType $sortType = null,
         ?ListingType $listingType = null,
+        #[Since('0.19.0')]
+        ?bool $likedOnly = null,
+        #[Since('0.19.0')]
+        ?bool $dislikedOnly = null,
     ): array {
         if ($community instanceof Community) {
             $community = $community->id;
@@ -159,6 +167,8 @@ final readonly class DefaultCommentEndpoint extends AbstractEndpoint implements 
                 'saved_only' => $savedOnly,
                 'sort' => $sortType?->value,
                 'type_' => $listingType?->value,
+                'liked_only' => $likedOnly,
+                'disliked_only' => $dislikedOnly,
             ],
             GetCommentsResponse::class,
             static fn (GetCommentsResponse $response) => $response->comments,

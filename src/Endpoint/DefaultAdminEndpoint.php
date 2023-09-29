@@ -4,10 +4,12 @@ namespace Rikudou\LemmyApi\Endpoint;
 
 use DateTimeInterface;
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Response\AddAdminResponse;
 use Rikudou\LemmyApi\Response\BannedPersonsResponse;
 use Rikudou\LemmyApi\Response\BanPersonResponse;
+use Rikudou\LemmyApi\Response\CommunityResponse;
 use Rikudou\LemmyApi\Response\CustomEmojiResponse;
 use Rikudou\LemmyApi\Response\DeleteCustomEmojiResponse;
 use Rikudou\LemmyApi\Response\GetSiteResponse;
@@ -38,6 +40,7 @@ final readonly class DefaultAdminEndpoint extends AbstractEndpoint implements Ad
         if (!is_int($user)) {
             $user = $user->id;
         }
+
         return $this->defaultCall(
             '/user/ban',
             HttpMethod::Post,
@@ -318,6 +321,37 @@ final readonly class DefaultAdminEndpoint extends AbstractEndpoint implements Ad
             ],
             ListPrivateMessageReportsResponse::class,
             static fn (ListPrivateMessageReportsResponse $response) => $response->privateMessageReports,
+        );
+    }
+
+    #[Since('0.19.0')]
+    public function hideCommunity(Community|int $community, ?string $reason = null): bool
+    {
+        return $this->defaultCall(
+            '/community/hide',
+            HttpMethod::Put,
+            [
+                'community_id' => is_int($community) ? $community : $community->id,
+                'hidden' => true,
+                'reason' => $reason,
+            ],
+            CommunityResponse::class,
+            static fn (CommunityResponse $response) => $response->communityView->community->hidden,
+        );
+    }
+
+    #[Since('0.19.0')]
+    public function unhideCommunity(Community|int $community): bool
+    {
+        return $this->defaultCall(
+            '/community/hide',
+            HttpMethod::Put,
+            [
+                'community_id' => is_int($community) ? $community : $community->id,
+                'hidden' => false,
+            ],
+            CommunityResponse::class,
+            static fn (CommunityResponse $response) => !$response->communityView->community->hidden,
         );
     }
 }
