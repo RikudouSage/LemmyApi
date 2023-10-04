@@ -10,7 +10,7 @@ final readonly class CommunityAggregates extends AbstractResponseDto
     public function __construct(
         public int $comments,
         public int $communityId,
-        public int $hotRank,
+        public float $hotRank,
         public int $id,
         public int $posts,
         public DateTimeInterface $published,
