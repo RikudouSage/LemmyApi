@@ -16,7 +16,7 @@ final readonly class CommentAggregates extends AbstractResponseDto
         public int $downvotes,
         public DateTimeInterface $published,
         public int $childCount,
-        public int $hotRank,
+        public float $hotRank,
         #[Since('0.19.0')]
         public ?int $controversyRank = null,
     ) {
