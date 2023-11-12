@@ -86,6 +86,43 @@ final readonly class DefaultUserEndpoint extends AbstractEndpoint implements Use
         );
     }
 
+    public function getCommentKarma(
+        int|string|Person $user,
+    ): int {
+        if ($user instanceof Person) {
+            $user = $user->id;
+        }
+
+        return $this->defaultCall(
+            '/user',
+            HttpMethod::Get,
+            [
+                'person_id' => is_int($user) ? $user : null,
+                'username' => is_string($user) ? $user : null,
+            ],
+            GetPersonDetailsResponse::class,
+            static fn (GetPersonDetailsResponse $response) => $response->personView->counts->commentScore,
+        );
+    }
+
+    public function getPostKarma(int|string|Person $user): int
+    {
+        if ($user instanceof Person) {
+            $user = $user->id;
+        }
+
+        return $this->defaultCall(
+            '/user',
+            HttpMethod::Get,
+            [
+                'person_id' => is_int($user) ? $user : null,
+                'username' => is_string($user) ? $user : null,
+            ],
+            GetPersonDetailsResponse::class,
+            static fn (GetPersonDetailsResponse $response) => $response->personView->counts->postScore,
+        );
+    }
+
     public function getPosts(
         int|string|Person $user,
         ?int $limit = null,

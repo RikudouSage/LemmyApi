@@ -13,6 +13,10 @@ interface UserEndpoint
 {
     public function get(string|int $usernameOrId): Person;
 
+    public function getCommentKarma(int|string|Person $user): int;
+
+    public function getPostKarma(int|string|Person $user): int;
+
     /**
      * @return array<Community>
      */
