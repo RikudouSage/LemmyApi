@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use BackedEnum;
 use JetBrains\PhpStorm\Deprecated;
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Attribute\Since;
@@ -629,7 +630,10 @@ final readonly class DefaultCurrentUserEndpoint extends AbstractEndpoint impleme
             ),
             array_keys($args),
         );
-        $body = array_combine($bodyKeys, $args);
+        $body = array_combine($bodyKeys, array_map(
+            static fn (mixed $value) => $value instanceof BackedEnum ? $value->value : $value,
+            $args,
+        ));
 
         return $this->defaultCall(
             '/user/save_user_settings',

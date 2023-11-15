@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use BackedEnum;
 use Rikudou\LemmyApi\Attribute\NoAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -72,7 +73,10 @@ final readonly class DefaultSiteEndpoint extends AbstractEndpoint implements Sit
             ),
             array_keys($args),
         );
-        $body = array_combine($bodyKeys, $args);
+        $body = array_combine($bodyKeys, array_map(
+            static fn (mixed $value) => $value instanceof BackedEnum ? $value->value : $value,
+            $args,
+        ));
 
         return $this->defaultCall(
             '/site',
