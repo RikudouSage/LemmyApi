@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Response\View;
 
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\SubscribedType;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 use Rikudou\LemmyApi\Response\Aggregates\PostAggregates;
@@ -23,6 +24,10 @@ final readonly class PostView extends AbstractResponseDto
         public SubscribedType $subscribed,
         public int $unreadComments,
         public ?int $myVote = null,
+        #[Since(version: '0.19.0')]
+        public ?bool $creatorIsModerator = null,
+        #[Since(version: '0.19.0')]
+        public ?bool $creatorIsAdmin = null,
     ) {
     }
 }

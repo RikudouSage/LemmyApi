@@ -11,12 +11,6 @@ final readonly class PostAggregates extends AbstractResponseDto
     public function __construct(
         public int $comments,
         public int $downvotes,
-        public bool $featuredLocal,
-        public float $hotRank,
-        public float $hotRankActive,
-        public int $id,
-        public DateTimeInterface $newestCommentTime,
-        public DateTimeInterface $newestCommentTimeNecro,
         public int $postId,
         public DateTimeInterface $published,
         public int $score,
@@ -33,6 +27,18 @@ final readonly class PostAggregates extends AbstractResponseDto
         public ?float $scaledRank = null,
         #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
         public ?bool $featuredCommunity = null,
+        #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
+        public ?bool $featuredLocal = null,
+        #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
+        public ?float $hotRank = null,
+        #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
+        public ?float $hotRankActive = null,
+        #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
+        public ?int $id = null,
+        #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
+        public ?DateTimeInterface $newestCommentTime = null,
+        #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
+        public ?DateTimeInterface $newestCommentTimeNecro = null,
     ) {
     }
 }
