@@ -11,7 +11,6 @@ final readonly class PostAggregates extends AbstractResponseDto
     public function __construct(
         public int $comments,
         public int $downvotes,
-        public bool $featuredCommunity,
         public bool $featuredLocal,
         public float $hotRank,
         public float $hotRankActive,
@@ -32,6 +31,8 @@ final readonly class PostAggregates extends AbstractResponseDto
         public ?int $instanceId = null,
         #[Since('0.19.0')]
         public ?float $scaledRank = null,
+        #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
+        public ?bool $featuredCommunity = null,
     ) {
     }
 }
