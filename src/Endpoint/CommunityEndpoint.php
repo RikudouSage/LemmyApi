@@ -11,7 +11,7 @@ use Rikudou\LemmyApi\Response\View\CommunityView;
 
 interface CommunityEndpoint
 {
-    public function get(int|string $nameOrId): Community;
+    public function get(int|string $nameOrId): CommunityView;
 
     /**
      * @return array<Language>

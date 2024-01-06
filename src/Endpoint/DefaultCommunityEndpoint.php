@@ -12,10 +12,11 @@ use Rikudou\LemmyApi\Response\GetCommunityResponse;
 use Rikudou\LemmyApi\Response\ListCommunitiesResponse;
 use Rikudou\LemmyApi\Response\Model\Community;
 use Rikudou\LemmyApi\Response\Model\Site;
+use Rikudou\LemmyApi\Response\View\CommunityView;
 
 final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implements CommunityEndpoint
 {
-    public function get(int|string $nameOrId): Community
+    public function get(int|string $nameOrId): CommunityView
     {
         return $this->defaultCall(
             '/community',
@@ -25,7 +26,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
                 'name' => is_string($nameOrId) ? $nameOrId : null,
             ],
             GetCommunityResponse::class,
-            static fn (GetCommunityResponse $response) => $response->communityView->community,
+            static fn (GetCommunityResponse $response) => $response->communityView,
         );
     }
 
