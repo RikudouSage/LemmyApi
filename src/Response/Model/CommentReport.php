@@ -16,6 +16,7 @@ final readonly class CommentReport extends AbstractResponseDto
         public string $reason,
         public bool $resolved,
         public ?int $resolverId = null,
+        public ?DateTimeInterface $updated = null,
     ) {
     }
 }
