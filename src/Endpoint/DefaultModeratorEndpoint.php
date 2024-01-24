@@ -162,6 +162,30 @@ final readonly class DefaultModeratorEndpoint extends AbstractEndpoint implement
         );
     }
 
+    public function listCommentReports(
+        Community|int|null $community = null,
+        ?int $limit = null,
+        ?int $page = null,
+        ?bool $unresolvedOnly = null
+    ): array {
+        if ($community instanceof Community) {
+            $community = $community->id;
+        }
+
+        return $this->defaultCall(
+            '/comment/report/list',
+            HttpMethod::Get,
+            [
+                'community_id' => $community,
+                'limit' => $limit,
+                'page' => $page,
+                'unresolved_only' => $unresolvedOnly,
+            ],
+            ListComme::class,
+            static fn (ListPostReportsResponse $response) => $response->postReports,
+        );
+    }
+
     public function lockPost(Post|int $post): bool
     {
         return $this->defaultCall(

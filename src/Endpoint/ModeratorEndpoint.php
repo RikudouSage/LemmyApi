@@ -10,6 +10,7 @@ use Rikudou\LemmyApi\Response\Model\Community;
 use Rikudou\LemmyApi\Response\Model\Person;
 use Rikudou\LemmyApi\Response\Model\Post;
 use Rikudou\LemmyApi\Response\Model\PostReport;
+use Rikudou\LemmyApi\Response\View\CommentReportView;
 use Rikudou\LemmyApi\Response\View\PostReportView;
 
 interface ModeratorEndpoint
@@ -42,6 +43,16 @@ interface ModeratorEndpoint
      * @return array<PostReportView>
      */
     public function listPostReports(
+        Community|int|null $community = null,
+        ?int $limit = null,
+        ?int $page = null,
+        ?bool $unresolvedOnly = null,
+    ): array;
+
+    /**
+     * @return array<CommentReportView>
+     */
+    public function listCommentReports(
         Community|int|null $community = null,
         ?int $limit = null,
         ?int $page = null,
