@@ -12,6 +12,7 @@ use Rikudou\LemmyApi\Response\CommentResponse;
 use Rikudou\LemmyApi\Response\CommunityResponse;
 use Rikudou\LemmyApi\Response\GetCommunityResponse;
 use Rikudou\LemmyApi\Response\GetReportCountResponse;
+use Rikudou\LemmyApi\Response\ListCommentReportsResponse;
 use Rikudou\LemmyApi\Response\ListPostReportsResponse;
 use Rikudou\LemmyApi\Response\Model\Comment;
 use Rikudou\LemmyApi\Response\Model\CommentReport;
@@ -181,8 +182,8 @@ final readonly class DefaultModeratorEndpoint extends AbstractEndpoint implement
                 'page' => $page,
                 'unresolved_only' => $unresolvedOnly,
             ],
-            ListComme::class,
-            static fn (ListPostReportsResponse $response) => $response->postReports,
+            ListCommentReportsResponse::class,
+            static fn (ListCommentReportsResponse $response) => $response->commentReports,
         );
     }
 
