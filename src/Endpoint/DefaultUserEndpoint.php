@@ -6,6 +6,7 @@ use Rikudou\LemmyApi\Attribute\NoAuth;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Helper\HttpModuleTrait;
+use Rikudou\LemmyApi\Response\Aggregates\PersonAggregates;
 use Rikudou\LemmyApi\Response\GetCaptchaResponse;
 use Rikudou\LemmyApi\Response\GetPersonDetailsResponse;
 use Rikudou\LemmyApi\Response\Model\CaptchaResponse;
@@ -30,6 +31,24 @@ final readonly class DefaultUserEndpoint extends AbstractEndpoint implements Use
             ],
             GetPersonDetailsResponse::class,
             static fn (GetPersonDetailsResponse $response) => $response->personView->person,
+        );
+    }
+
+    public function getCounts(int|string|Person $user): PersonAggregates
+    {
+        if ($user instanceof Person) {
+            $user = $user->id;
+        }
+
+        return $this->defaultCall(
+            '/user',
+            HttpMethod::Get,
+            [
+                'person_id' => is_int($user) ? $user : null,
+                'username' => is_string($user) ? $user : null,
+            ],
+            GetPersonDetailsResponse::class,
+            static fn (GetPersonDetailsResponse $response) => $response->personView->counts,
         );
     }
 

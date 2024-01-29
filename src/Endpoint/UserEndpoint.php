@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Endpoint;
 
 use Rikudou\LemmyApi\Enum\SortType;
+use Rikudou\LemmyApi\Response\Aggregates\PersonAggregates;
 use Rikudou\LemmyApi\Response\Model\CaptchaResponse;
 use Rikudou\LemmyApi\Response\Model\Community;
 use Rikudou\LemmyApi\Response\Model\Person;
@@ -12,6 +13,8 @@ use Rikudou\LemmyApi\Response\View\PostView;
 interface UserEndpoint
 {
     public function get(string|int $usernameOrId): Person;
+
+    public function getCounts(string|int|Person $user): PersonAggregates;
 
     public function getCommentKarma(int|string|Person $user): int;
 
