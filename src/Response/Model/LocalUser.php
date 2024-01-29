@@ -22,12 +22,10 @@ final readonly class LocalUser extends AbstractResponseDto
         public bool $sendNotificationsToEmail,
         public bool $showAvatars,
         public bool $showBotAccounts,
-        public bool $showNewPostNotifs,
         public bool $showNsfw,
         public bool $showReadPosts,
         public bool $showScores,
         public string $theme,
-        public string $validatorTime,
         #[Deprecated(since: '0.19.0')]
         public ?string $totp2faUrl = null,
         public ?string $email = null,
@@ -44,6 +42,16 @@ final readonly class LocalUser extends AbstractResponseDto
         public ?PostListingMode $postListingMode = null,
         #[Since('0.19.0')]
         public ?bool $totp2faEnabled = null,
+        #[Since('0.19')]
+        public ?bool $enableKeyboardNavigation = null,
+        #[Since('0.19')]
+        public ?bool $enableAnimatedImages = null,
+        #[Since('0.19')]
+        public ?bool $collapseBotComments = null,
+        #[Deprecated('0.19.0')]
+        public ?bool $showNewPostNotifs = null,
+        #[Deprecated('0.19.0')]
+        public ?string $validatorTime = null,
     ) {
     }
 }

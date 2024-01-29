@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Response\Model;
 
 use DateTimeInterface;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\RegistrationMode;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
@@ -34,6 +35,8 @@ final readonly class LocalSite extends AbstractResponseDto
         public ?DateTimeInterface $updated = null,
         public ?string $legalInformation = null,
         public ?string $applicationQuestion = null,
+        #[Since('0.19')]
+        public ?bool $federationSignedFetch = null,
     ) {
     }
 }
