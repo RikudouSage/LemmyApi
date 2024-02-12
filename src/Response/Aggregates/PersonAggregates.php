@@ -3,7 +3,6 @@
 namespace Rikudou\LemmyApi\Response\Aggregates;
 
 use JetBrains\PhpStorm\Deprecated;
-use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 
 final readonly class PersonAggregates extends AbstractResponseDto

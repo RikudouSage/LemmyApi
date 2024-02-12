@@ -62,6 +62,10 @@ final readonly class DefaultAdminEndpoint extends AbstractEndpoint implements Ad
         ?string $reason = null,
         ?bool $removeData = null,
     ): bool {
+        if (!is_int($user)) {
+            $user = $user->id;
+        }
+
         return $this->defaultCall(
             '/user/ban',
             HttpMethod::Post,
