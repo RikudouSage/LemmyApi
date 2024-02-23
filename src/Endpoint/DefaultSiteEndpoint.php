@@ -67,8 +67,8 @@ final readonly class DefaultSiteEndpoint extends AbstractEndpoint implements Sit
         $args = get_defined_vars();
         $bodyKeys = array_map(
             static fn (string $key) => (string) preg_replace_callback(
-                '[A-Z]',
-                static fn (array $matches) => '_' . strtolower($matches[1]),
+                '@[A-Z]@',
+                static fn (array $matches) => '_' . strtolower($matches[0]),
                 $key,
             ),
             array_keys($args),
