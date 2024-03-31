@@ -6,6 +6,7 @@ use finfo;
 use Psr\Http\Message\StreamInterface;
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
 use Rikudou\LemmyApi\Dto\UploadImageResult;
+use Rikudou\LemmyApi\Enum\AuthMode;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\SearchType;
@@ -107,9 +108,17 @@ final readonly class DefaultMiscellaneousEndpoint extends AbstractEndpoint imple
             "{$this->instanceUrl}/pictrs/image",
         )
             ->withHeader('Content-Type', "multipart/form-data; boundary={$boundary}")
-            ->withHeader('Cookie', "jwt={$this->jwt}")
-            ->withHeader('Cookie', "auth={$this->jwt}")
             ->withBody(new StringStream($requestBody));
+
+        if ($this->authMode & AuthMode::Body) {
+            $request = $request
+                ->withHeader('Cookie', "jwt={$this->jwt}")
+                ->withHeader('Cookie', "auth={$this->jwt}");
+        }
+        if ($this->authMode & AuthMode::Header) {
+            $request = $request
+                ->withHeader('Authorization', "Bearer {$this->jwt}");
+        }
 
         $response = $this->httpClient->sendRequest($request);
         if ($e = $this->getExceptionForInvalidResponse($response)) {
