@@ -120,7 +120,7 @@ final readonly class DefaultUserEndpoint extends AbstractEndpoint implements Use
                 'username' => is_string($user) ? $user : null,
             ],
             GetPersonDetailsResponse::class,
-            static fn (GetPersonDetailsResponse $response) => $response->personView->counts->commentScore,
+            static fn (GetPersonDetailsResponse $response) => $response->personView->counts->commentScore ?? 0,
         );
     }
 
@@ -138,7 +138,7 @@ final readonly class DefaultUserEndpoint extends AbstractEndpoint implements Use
                 'username' => is_string($user) ? $user : null,
             ],
             GetPersonDetailsResponse::class,
-            static fn (GetPersonDetailsResponse $response) => $response->personView->counts->postScore,
+            static fn (GetPersonDetailsResponse $response) => $response->personView->counts->postScore ?? 0,
         );
     }
 

@@ -77,14 +77,16 @@ trait HttpModuleTrait
         if ($response->getStatusCode() >= 299 || $response->getStatusCode() < 200) {
             $body = $this->getJson($response);
             $body['error'] ??= 'unknown';
+            $body['message'] ??= 'no message';
 
+            assert(is_string($body['message']));
             assert(is_string($body['error']));
             $errorCode = ErrorCode::tryFrom($body['error']);
             if ($errorCode !== null) {
                 return $errorCode->toException();
             }
 
-            return new HttpApiException("Got an invalid http response: {$response->getStatusCode()}, reason: {$body['error']}");
+            return new HttpApiException("Got an invalid http response: {$response->getStatusCode()}, reason: {$body['error']} ({$body['message']})");
         }
 
         return null;
