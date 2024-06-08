@@ -42,7 +42,7 @@ $api = new DefaultLemmyApi(
     version: LemmyApiVersion::Version3, // this is currently the only supported version
     httpClient: new Psr18Client(), // assuming you use Symfony, otherwise provide any other implementation
     requestFactory: new Psr17Factory(), // assuming you use Nyholm, otherwise provide any other implementation,
-)
+);
 
 // before calling anything else, you must login
 
