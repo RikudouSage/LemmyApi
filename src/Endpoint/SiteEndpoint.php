@@ -2,9 +2,12 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\ModlogActionType;
+use Rikudou\LemmyApi\Enum\PostListingMode;
 use Rikudou\LemmyApi\Enum\RegistrationMode;
+use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Response\GetModlogResponse;
 use Rikudou\LemmyApi\Response\GetSiteResponse;
 use Rikudou\LemmyApi\Response\Model\Community;
@@ -26,6 +29,7 @@ interface SiteEndpoint
      * @param array<string>|null $allowedInstances
      * @param array<string>|null $blockedInstances
      * @param array<string>|null $taglines
+     * @param array<string>|null $blockedUrls
      */
     public function update(
         ?int $actorNameMaxLength = null,
@@ -69,6 +73,12 @@ interface SiteEndpoint
         ?string $sidebar = null,
         ?string $slurFilterRegex = null,
         ?array $taglines = null,
+        #[Since(version: '0.19.4')]
+        ?PostListingMode $defaultPostListingMode = null,
+        #[Since(version: '0.19.4')]
+        ?SortType $defaultSortType = null,
+        #[Since(version: '0.19.4')]
+        ?array $blockedUrls = null,
     ): SiteResponse;
 
     public function getFederatedInstances(): FederatedInstances;

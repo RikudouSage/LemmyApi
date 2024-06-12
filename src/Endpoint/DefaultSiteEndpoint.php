@@ -68,7 +68,10 @@ final readonly class DefaultSiteEndpoint extends AbstractEndpoint implements Sit
         ?array $taglines = null,
         #[Since(version: '0.19.4')]
         ?PostListingMode $defaultPostListingMode = null,
+        #[Since(version: '0.19.4')]
         ?SortType $defaultSortType = null,
+        #[Since(version: '0.19.4')]
+        ?array $blockedUrls = null,
     ): SiteResponse {
         $args = get_defined_vars();
         $bodyKeys = array_map(
