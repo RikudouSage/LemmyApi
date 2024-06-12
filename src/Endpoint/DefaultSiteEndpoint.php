@@ -4,9 +4,11 @@ namespace Rikudou\LemmyApi\Endpoint;
 
 use BackedEnum;
 use Rikudou\LemmyApi\Attribute\NoAuth;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\ModlogActionType;
+use Rikudou\LemmyApi\Enum\PostListingMode;
 use Rikudou\LemmyApi\Enum\RegistrationMode;
 use Rikudou\LemmyApi\Response\GetFederatedInstancesResponse;
 use Rikudou\LemmyApi\Response\GetModlogResponse;
@@ -63,6 +65,8 @@ final readonly class DefaultSiteEndpoint extends AbstractEndpoint implements Sit
         ?string $sidebar = null,
         ?string $slurFilterRegex = null,
         ?array $taglines = null,
+        #[Since(version: '0.19.4')]
+        ?PostListingMode $defaultPostListingMode = null,
     ): SiteResponse {
         $args = get_defined_vars();
         $bodyKeys = array_map(

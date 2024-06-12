@@ -5,6 +5,7 @@ namespace Rikudou\LemmyApi\Response\Model;
 use DateTimeInterface;
 use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\ListingType;
+use Rikudou\LemmyApi\Enum\PostListingMode;
 use Rikudou\LemmyApi\Enum\RegistrationMode;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 
@@ -37,6 +38,8 @@ final readonly class LocalSite extends AbstractResponseDto
         public ?string $applicationQuestion = null,
         #[Since('0.19')]
         public ?bool $federationSignedFetch = null,
+        #[Since('0.19.4')]
+        public ?PostListingMode $defaultPostListingMode = null,
     ) {
     }
 }
