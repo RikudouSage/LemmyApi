@@ -22,6 +22,8 @@ final readonly class CommunityAggregates extends AbstractResponseDto
         public ?float $hotRank = null,
         #[Since(version: '0.19.0', description: 'Lemmy devs clearly have no idea what a breaking change is.')]
         public ?int $id = null,
+        #[Since(version: '0.19.4')]
+        public ?int $subscribersLocal = null,
     ) {
     }
 }
