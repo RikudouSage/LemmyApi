@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Response\View;
 
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\SubscribedType;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 use Rikudou\LemmyApi\Response\Model\Comment;
@@ -26,6 +27,8 @@ final readonly class CommentReplyView extends AbstractResponseDto
         public bool $saved,
         public SubscribedType $subscribed,
         public ?int $myVote = null,
+        #[Since('0.19.4')]
+        public ?bool $bannedFromCommunity = null,
     ) {
     }
 }
