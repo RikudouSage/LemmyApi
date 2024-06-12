@@ -3,6 +3,8 @@
 namespace Rikudou\LemmyApi\Endpoint;
 
 use Rikudou\LemmyApi\Attribute\RequiresAuth;
+use Rikudou\LemmyApi\Attribute\Since;
+use Rikudou\LemmyApi\Enum\CommunityVisibility;
 use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
@@ -76,6 +78,8 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         ?string $icon = null,
         ?bool $nsfw = null,
         ?bool $postingRestrictedToMods = null,
+        #[Since('0.19.4')]
+        ?CommunityVisibility $visibility = null,
     ): Community {
         return $this->defaultCall(
             '/community',
@@ -91,6 +95,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
                 'nsfw' => $nsfw,
                 'posting_restricted_to_mods' => $postingRestrictedToMods,
                 'title' => $displayName,
+                'visibility' => $visibility,
             ],
             CommunityResponse::class,
             static fn (CommunityResponse $response) => $response->communityView->community,
@@ -137,6 +142,8 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
         ?bool $nsfw = null,
         ?bool $postingRestrictedToMods = null,
         ?string $displayName = null,
+        #[Since('0.19.4')]
+        ?CommunityVisibility $visibility = null,
     ): Community {
         return $this->defaultCall(
             '/community',
@@ -152,6 +159,7 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
                 'nsfw' => $nsfw,
                 'posting_restricted_to_mods' => $postingRestrictedToMods,
                 'title' => $displayName,
+                'visibility' => $visibility,
             ],
             CommunityResponse::class,
             static fn (CommunityResponse $response) => $response->communityView->community,

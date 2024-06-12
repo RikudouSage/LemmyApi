@@ -2,6 +2,8 @@
 
 namespace Rikudou\LemmyApi\Endpoint;
 
+use Rikudou\LemmyApi\Attribute\Since;
+use Rikudou\LemmyApi\Enum\CommunityVisibility;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\SortType;
@@ -32,6 +34,8 @@ interface CommunityEndpoint
         ?string $icon = null,
         ?bool $nsfw = null,
         ?bool $postingRestrictedToMods = null,
+        #[Since('0.19.4')]
+        ?CommunityVisibility $visibility = null,
     ): Community;
 
     public function delete(Community|int $community): bool;
@@ -50,6 +54,8 @@ interface CommunityEndpoint
         ?bool $nsfw = null,
         ?bool $postingRestrictedToMods = null,
         ?string $displayName = null,
+        #[Since('0.19.4')]
+        ?CommunityVisibility $visibility = null,
     ): Community;
 
     /**

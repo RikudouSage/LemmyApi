@@ -3,6 +3,8 @@
 namespace Rikudou\LemmyApi\Response\Model;
 
 use DateTimeInterface;
+use Rikudou\LemmyApi\Attribute\Since;
+use Rikudou\LemmyApi\Enum\CommunityVisibility;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 
 final readonly class Community extends AbstractResponseDto
@@ -24,6 +26,8 @@ final readonly class Community extends AbstractResponseDto
         public ?string $banner = null,
         public ?string $icon = null,
         public ?DateTimeInterface $updated = null,
+        #[Since('0.19.4')]
+        public ?CommunityVisibility $visibility = null,
     ) {
     }
 }
