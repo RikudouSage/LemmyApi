@@ -30,6 +30,8 @@ final readonly class PostView extends AbstractResponseDto
         public ?bool $creatorIsAdmin = null,
         #[Since('0.19.4')]
         public ?bool $bannedFromCommunity = null,
+        #[Since('0.19.4')]
+        public ?bool $hidden = null,
     ) {
     }
 }

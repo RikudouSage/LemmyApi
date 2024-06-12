@@ -2,6 +2,7 @@
 
 namespace Rikudou\LemmyApi\Response\View;
 
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 use Rikudou\LemmyApi\Response\Aggregates\PostAggregates;
 use Rikudou\LemmyApi\Response\Model\Community;
@@ -21,6 +22,8 @@ final readonly class PostReportView extends AbstractResponseDto
         public PostReport $postReport,
         public ?int $myVote = null,
         public ?Person $resolver = null,
+        #[Since('0.19.4')]
+        public ?bool $hidden = null,
     ) {
     }
 }
