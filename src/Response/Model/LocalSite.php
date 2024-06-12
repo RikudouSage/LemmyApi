@@ -7,6 +7,7 @@ use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\PostListingMode;
 use Rikudou\LemmyApi\Enum\RegistrationMode;
+use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 
 final readonly class LocalSite extends AbstractResponseDto
@@ -40,6 +41,8 @@ final readonly class LocalSite extends AbstractResponseDto
         public ?bool $federationSignedFetch = null,
         #[Since('0.19.4')]
         public ?PostListingMode $defaultPostListingMode = null,
+        #[Since('0.19.4')]
+        public ?SortType $defaultSortType = null,
     ) {
     }
 }

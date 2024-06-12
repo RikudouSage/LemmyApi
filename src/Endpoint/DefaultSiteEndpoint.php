@@ -10,6 +10,7 @@ use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\ModlogActionType;
 use Rikudou\LemmyApi\Enum\PostListingMode;
 use Rikudou\LemmyApi\Enum\RegistrationMode;
+use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Response\GetFederatedInstancesResponse;
 use Rikudou\LemmyApi\Response\GetModlogResponse;
 use Rikudou\LemmyApi\Response\GetSiteMetadataResponse;
@@ -67,6 +68,7 @@ final readonly class DefaultSiteEndpoint extends AbstractEndpoint implements Sit
         ?array $taglines = null,
         #[Since(version: '0.19.4')]
         ?PostListingMode $defaultPostListingMode = null,
+        ?SortType $defaultSortType = null,
     ): SiteResponse {
         $args = get_defined_vars();
         $bodyKeys = array_map(
