@@ -17,6 +17,7 @@ use Rikudou\LemmyApi\Enum\HttpMethod;
 use Rikudou\LemmyApi\Enum\LemmyApiVersion;
 use Rikudou\LemmyApi\Exception\LoginRequiredException;
 use Rikudou\LemmyApi\Helper\HttpModuleTrait;
+use Rikudou\LemmyApi\Response\AbstractResponseDto;
 use Rikudou\LemmyApi\Response\ResponseDto;
 
 abstract readonly class AbstractEndpoint
@@ -31,6 +32,7 @@ abstract readonly class AbstractEndpoint
         protected RequestFactoryInterface $requestFactory,
         #[ExpectedValues(valuesFromClass: AuthMode::class)]
         protected int $authMode = AuthMode::Both,
+        protected bool $strictMode = true,
     ) {
     }
 
@@ -96,7 +98,11 @@ abstract readonly class AbstractEndpoint
             return null;
         }
 
-        $response = $responseClass::fromRaw($this->getJson($response));
+        if (is_a($responseClass, AbstractResponseDto::class, true)) {
+            $response = $responseClass::fromRaw($this->getJson($response), $this->strictMode);
+        } else {
+            $response = $responseClass::fromRaw($this->getJson($response));
+        }
 
         if ($resultCallback === null) {
             return $response;
