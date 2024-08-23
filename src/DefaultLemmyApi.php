@@ -49,8 +49,8 @@ final class DefaultLemmyApi implements LemmyApi
         #[ExpectedValues(valuesFromClass: AuthMode::class)]
         private readonly int $authMode = AuthMode::Both,
     ) {
-        if (!str_starts_with($instanceUrl, 'https://')) {
-            $instanceUrl = "https://{$instanceUrl}";
+        if (!preg_match('@^https?://@', $instanceUrl)) {
+            $instanceUrl = 'https://' . $instanceUrl;
         }
         $this->instanceUrl = $instanceUrl;
     }
