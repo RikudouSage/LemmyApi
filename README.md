@@ -58,6 +58,36 @@ try {
 }
 ```
 
+## Non-strict mode
+
+By default, the library works in a strict mode - when Lemmy returns a property in the response that the library
+does not expect in the mapped DTO, it throws an exception. That can happen when the library is not updated to work
+with the latest version and Lemmy adds new parameters to responses.
+
+To mitigate this you can switch to non-strict mode by providing it as a parameter:
+
+```php
+<?php
+
+use Rikudou\LemmyApi\DefaultLemmyApi;
+use Rikudou\LemmyApi\Enum\LemmyApiVersion;
+use Symfony\Component\HttpClient\Psr18Client;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Rikudou\LemmyApi\Enum\Language;
+use Rikudou\LemmyApi\Exception\LemmyApiException;
+
+$api = new DefaultLemmyApi(
+    instanceUrl: 'https://my-lemmy-instance.world', 
+    version: LemmyApiVersion::Version3,
+    httpClient: new Psr18Client(),
+    requestFactory: new Psr17Factory(),
+    strictDeserialization: false, // here you disable the strict mode
+);
+```
+
+> Currently, the latest fully supported version is **0.19.3**, if you use this library to connect to a newer
+> version, it might be wise to turn off the strict mode.
+
 ## Notes
 
 There are many, many api methods, most of them have no documentation in the upstream so I tried my best to guess
