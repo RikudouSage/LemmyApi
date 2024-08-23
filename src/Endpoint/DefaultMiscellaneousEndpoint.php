@@ -125,6 +125,6 @@ final readonly class DefaultMiscellaneousEndpoint extends AbstractEndpoint imple
             throw $e;
         }
 
-        return new UploadImageResult(UploadImageResponse::fromRaw($this->getJson($response)));
+        return new UploadImageResult(UploadImageResponse::fromRaw($this->getJson($response), $this->strictMode));
     }
 }

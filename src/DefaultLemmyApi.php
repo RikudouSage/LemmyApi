@@ -48,6 +48,7 @@ final class DefaultLemmyApi implements LemmyApi
         private readonly RequestFactoryInterface $requestFactory,
         #[ExpectedValues(valuesFromClass: AuthMode::class)]
         private readonly int $authMode = AuthMode::Both,
+        private readonly bool $strictDeserialization = true,
     ) {
         if (!preg_match('@^https?://@', $instanceUrl)) {
             $instanceUrl = 'https://' . $instanceUrl;
@@ -79,7 +80,7 @@ final class DefaultLemmyApi implements LemmyApi
             throw $e;
         }
 
-        $response = LoginResponse::fromRaw($this->getJson($response));
+        $response = LoginResponse::fromRaw($this->getJson($response), $this->strictDeserialization);
         $this->setJwt($response->jwt);
 
         return $response;
@@ -127,7 +128,7 @@ final class DefaultLemmyApi implements LemmyApi
             throw $e;
         }
 
-        $response = LoginResponse::fromRaw($this->getJson($response));
+        $response = LoginResponse::fromRaw($this->getJson($response), $this->strictDeserialization);
         $this->setJwt($response->jwt);
 
         return $response;
@@ -142,6 +143,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -154,6 +156,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -166,6 +169,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -178,6 +182,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -190,6 +195,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -202,6 +208,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -214,6 +221,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -226,6 +234,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 
@@ -238,6 +247,7 @@ final class DefaultLemmyApi implements LemmyApi
             httpClient: $this->httpClient,
             requestFactory: $this->requestFactory,
             authMode: $this->authMode,
+            strictMode: $this->strictDeserialization,
         );
     }
 

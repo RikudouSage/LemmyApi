@@ -15,7 +15,7 @@ use Rikudou\LemmyApi\Exception\SerializerException;
 
 abstract readonly class AbstractResponseDto implements ResponseDto
 {
-    public static function fromRaw(array $raw): static
+    public static function fromRaw(array $raw, bool $strict = true): static
     {
         $transformedKeys = array_map(
             static fn (string $key): string => (string) preg_replace_callback(
@@ -36,6 +36,14 @@ abstract readonly class AbstractResponseDto implements ResponseDto
         $parameters = self::getParameters($constructor);
         foreach ($transformed as $key => &$value) {
             $parameter = $parameters[$key] ?? null;
+            if ($parameter === null) {
+                if ($strict) {
+                    throw new SerializerException("Trying to deserialize a parameter '\${$key}', but it does not exist on " . static::class);
+                } else {
+                    unset($transformed[$key]);
+                    continue;
+                }
+            }
             $type = $parameter?->getType() ?? null;
             if ($type === null) {
                 continue;
@@ -85,7 +93,7 @@ abstract readonly class AbstractResponseDto implements ResponseDto
             }
             if (is_a($typeName, ResponseDto::class, true)) {
                 assert(is_array($value));
-                $value = $typeName::fromRaw($value);
+                $value = $typeName::fromRaw($value, $strict);
                 continue;
             }
             if (is_a($typeName, DateTimeInterface::class, true)) {

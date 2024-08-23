@@ -3,6 +3,7 @@
 namespace Rikudou\LemmyApi\Response\Model;
 
 use DateTimeInterface;
+use Rikudou\LemmyApi\Attribute\Since;
 use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Response\AbstractResponseDto;
 
@@ -30,6 +31,8 @@ final readonly class Post extends AbstractResponseDto
         public ?string $thumbnailUrl = null,
         public ?DateTimeInterface $updated = null,
         public ?string $url = null,
+        #[Since('0.19.4')]
+        public ?string $urlContentType = null,
     ) {
     }
 }
