@@ -60,9 +60,13 @@ abstract readonly class AbstractResponseDto implements ResponseDto
             if ($type->getName() === 'array' && $arrayType = self::getArrayType($parameters[$key])) {
                 assert(is_array($value));
                 $value = array_map(
-                    static function (array|int|string $raw) use ($arrayType) {
+                    static function (array|int|string $raw) use ($strict, $arrayType) {
                         if (is_a($arrayType, ResponseDto::class, true)) {
                             assert(is_array($raw));
+
+                            if (is_a($arrayType, AbstractResponseDto::class, true)) {
+                                return $arrayType::fromRaw($raw, $strict);
+                            }
 
                             return $arrayType::fromRaw($raw);
                         }
