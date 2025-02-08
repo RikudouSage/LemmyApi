@@ -68,4 +68,7 @@ interface CommunityEndpoint
         ?ListingType $listingType = null,
         ?bool $showNsfw = null,
     ): array;
+
+    public function hide(Community|int $community, ?string $reason = null): bool;
+    public function unhide(Community|int $community): bool;
 }

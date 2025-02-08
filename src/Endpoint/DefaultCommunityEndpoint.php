@@ -188,4 +188,33 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
             static fn (ListCommunitiesResponse $response) => $response->communities,
         );
     }
+
+    public function hide(Community|int $community, ?string $reason = null): bool
+    {
+        return $this->defaultCall(
+            '/community/hide',
+            HttpMethod::Post,
+            [
+                'community_id' => is_int($community) ? $community : $community->id,
+                'hidden' => true,
+                'reason' => $reason,
+            ],
+            CommunityResponse::class,
+            static fn (CommunityResponse $response) => $response->communityView->community->deleted,
+        );
+    }
+
+    public function unhide(Community|int $community): bool
+    {
+        return $this->defaultCall(
+            '/community/hide',
+            HttpMethod::Post,
+            [
+                'community_id' => is_int($community) ? $community : $community->id,
+                'hidden' => false,
+            ],
+            CommunityResponse::class,
+            static fn (CommunityResponse $response) => $response->communityView->community->deleted,
+        );
+    }
 }
