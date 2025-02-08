@@ -8,12 +8,18 @@ use Rikudou\LemmyApi\Enum\Language;
 use Rikudou\LemmyApi\Enum\ListingType;
 use Rikudou\LemmyApi\Enum\SortType;
 use Rikudou\LemmyApi\Response\Model\Community;
+use Rikudou\LemmyApi\Response\Model\Person;
 use Rikudou\LemmyApi\Response\Model\Site;
 use Rikudou\LemmyApi\Response\View\CommunityView;
 
 interface CommunityEndpoint
 {
     public function get(int|string $nameOrId): CommunityView;
+
+    /**
+     * @return array<Person>
+     */
+    public function getModerators(int|string|Community $community): array;
 
     /**
      * @return array<Language>

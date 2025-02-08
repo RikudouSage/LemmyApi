@@ -14,6 +14,7 @@ use Rikudou\LemmyApi\Response\GetCommunityResponse;
 use Rikudou\LemmyApi\Response\ListCommunitiesResponse;
 use Rikudou\LemmyApi\Response\Model\Community;
 use Rikudou\LemmyApi\Response\Model\Site;
+use Rikudou\LemmyApi\Response\View\CommunityModeratorView;
 use Rikudou\LemmyApi\Response\View\CommunityView;
 
 final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implements CommunityEndpoint
@@ -29,6 +30,27 @@ final readonly class DefaultCommunityEndpoint extends AbstractEndpoint implement
             ],
             GetCommunityResponse::class,
             static fn (GetCommunityResponse $response) => $response->communityView,
+        );
+    }
+
+    public function getModerators(int|string|Community $community): array
+    {
+        if ($community instanceof Community) {
+            $community = $community->id;
+        }
+
+        return $this->defaultCall(
+            '/community',
+            HttpMethod::Get,
+            [
+                'id' => is_int($community) ? $community : null,
+                'name' => is_string($community) ? $community : null,
+            ],
+            GetCommunityResponse::class,
+            static fn (GetCommunityResponse $response) => array_map(
+                fn (CommunityModeratorView $moderatorView) => $moderatorView->moderator,
+                $response->moderators,
+            ),
         );
     }
 
