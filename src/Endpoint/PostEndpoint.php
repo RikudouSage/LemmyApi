@@ -48,6 +48,10 @@ interface PostEndpoint
         ?Language $language = null,
         ?bool $nsfw = null,
         ?string $url = null,
+        #[Since('0.19.4')]
+        ?string $customThumbnail = null,
+        #[Since('0.19.4')]
+        ?string $altText = null,
     ): PostView;
 
     public function delete(Post|int $post): bool;

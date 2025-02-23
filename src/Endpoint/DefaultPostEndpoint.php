@@ -30,6 +30,10 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
         ?Language $language = null,
         ?bool $nsfw = null,
         ?string $url = null,
+        #[Since('0.19.4')]
+        ?string $customThumbnail = null,
+        #[Since('0.19.4')]
+        ?string $altText = null,
     ): PostView {
         return $this->defaultCall(
             '/post',
@@ -42,6 +46,8 @@ final readonly class DefaultPostEndpoint extends AbstractEndpoint implements Pos
                 'name' => $name,
                 'nsfw' => $nsfw,
                 'url' => $url,
+                'custom_thumbnail' => $customThumbnail,
+                'alt_text' => $altText,
             ],
             PostResponse::class,
             static fn (PostResponse $response) => $response->postView,
