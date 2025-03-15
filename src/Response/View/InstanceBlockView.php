@@ -14,7 +14,7 @@ final readonly class InstanceBlockView extends AbstractResponseDto
     public function __construct(
         public Person $person,
         public Instance $instance,
-        public ?Site $site,
+        public ?Site $site = null,
     ) {
     }
 }
